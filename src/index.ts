@@ -3,9 +3,19 @@ import dotenv from "dotenv";
 import { connectDB } from "./mongo";
 import rootRouter from "./routes/root.routes";
 import { errorHandler } from "./middlewares/errorHandler";
+import cors from "cors"
 
 dotenv.config();
 const app = express();
+
+const corsOption = {
+  origin: process.env.CLIENT_ORIGIN,
+  credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeader: ["Content-Type", "Authorization"]
+}
+
+app.use(cors(corsOption))
 app.use(express.json());
 // localhost:3000
 
@@ -23,3 +33,5 @@ connectDB().then(() => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 });
+
+
